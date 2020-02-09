@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/2.1.0/joint.css" />
+</head>
+<body>
+    <!-- content -->
+    <div class="mypanel"></div>
+    <div id="myholder"></div>
+
+    <!-- dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/2.1.0/joint.js"></script>
+
+    <!-- code -->
+    <script type="text/javascript">
+
+        console.log('start');
+
+        $(document).ready(function() {
+          $.ajax({
+            type: 'GET',
+            url: `http://treg6.id:276/cr6/naisget/getScheme.php?key=d-6607`,
+            contentType: 'application/json',
+            dataType:'json',
+            responseType:'application/json',
+            xhrFields: {
+              withCredentials: false
+            },
+            headers: {
+              'Access-Control-Allow-Headers':'application/json',
+              'Accept': '*/*',
+            },
+            success: function(data) {
+              console.log(data);
+            },
+            error: function(error) {
+              console.log("FAIL....=================");
+            }
+          });
+        });
+
+
+
+        function setHeader(xhr) {
+          xhr.setRequestHeader('Accept', "application/json, text/plain, */*");
+          xhr.setRequestHeader('Content-Type', 'text/html');
+        }
+
+        //$.getJSON(`http://treg6.id:276/cr6/naisget/getScheme.php?key=d-6607`, function(data) {
+
+
+            //console.log(data);
+
+            // var text = `Date: ${data[0].code}<br>
+            //             Time: ${data.time}<br>
+            //             Unix time: ${data.milliseconds_since_epoch}`
+
+
+            //$(".mypanel").html(text);
+        //});
+
+        var graph = new joint.dia.Graph;
+
+        var paper = new joint.dia.Paper({
+            el: document.getElementById('myholder'),
+            model: graph,
+            gridSize: 1,
+            width: 1200,
+            height: 700,
+            background: {
+              color: '#e8eaf6'
+            }
+        });
+
+        //paper.scale(0.5, 0.5);
+        //paper.translate(100, 100);
+
+        var rect = new joint.shapes.standard.Rectangle();
+        rect.position(100, 100);
+        rect.resize(100, 40);
+        rect.attr({
+            body: {
+                fill: '#2196f3',
+                stroke: '#1976d2',
+                rx: 10,
+                ry: 10,
+            },
+            label: {
+                text: 'Fuse 1',
+                fill: 'white',
+            }
+        });
+
+        var rect2 = rect.clone();
+        rect2.translate(0, 50);
+        rect2.attr({
+          label: {
+            text: 'Fuse 2',
+          }
+        });
+
+        var rect3 = rect.clone();
+        rect3.resize(140,160);
+        rect3.translate( -20, -40);
+        rect3.attr('label/text', '');
+        rect3.attr('body/fill', 'white');
+
+        rect3.addTo(graph);
+        rect.addTo(graph);
+        rect2.addTo(graph);
+
+        var rect4 = rect2.clone();
+        rect4.translate(0, 100);
+        rect4.attr('label/text', 'Fuse 3');
+
+        rect4.addTo(graph);
+
+
+        var rectTengah = new joint.shapes.standard.Rectangle();
+        rectTengah.resize( 350, 400);
+        rectTengah.position( 250, 60 );
+        rectTengah.attr({
+          body: {
+            fill: 'white',
+            rx: 10,
+            ry: 10,
+            stroke: '#ab47bc'
+          },
+        });
+
+
+
+        var rect5 = rectTengah.clone();
+        rect5.resize(100, 40);
+        rect5.translate(20,40);
+        rect5.attr({
+          body: {
+            fill: '#ba68c8',
+            rx: 10,
+            ry: 10,
+            stroke: '#ab47bc',
+          },
+          label: {
+            text: 'Fuse 6',
+            fill: 'white',
+          }
+        });
+
+        var rect6 = rect5.clone();
+        rect6.translate(0, 70);
+        rect6.attr('label/text', 'Fuse 7');
+
+        var rect7 = rect6.clone();
+        rect7.translate(0, 70);
+        rect7.attr('label/text', 'Fuse 8');
+
+        var rect8 = rect7.clone();
+        rect8.translate(0, 70);
+        rect8.attr('label/text', 'Fuse 9');
+
+
+        rectTengah.addTo(graph);
+        rect5.addTo(graph);
+        rect6.addTo(graph);
+        rect7.addTo(graph);
+        rect8.addTo(graph);
+
+
+        var link = new joint.shapes.standard.Link();
+        link.source(rect, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link.target(rect7, {
+          anchor: {
+            name: 'left',
+          }
+        });
+        link.attr('line/stroke', '#66bb6a');
+        link.connector('jumpover', {size: 10});
+
+        var link2  = link.clone();
+        link2.source(rect2, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link2.target(rect5, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var link3  = link.clone();
+        link3.source(rect4, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link3.target(rect6, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var rect9 = rect5.clone();
+        rect9.translate(200, 0);
+        rect9.attr({
+          body: {
+            fill: '#3f51b5',
+            rx: 10,
+            ry: 10,
+            stroke: 'green'
+          },
+          label:{
+            fill: 'white',
+            text: 'MCB 1',
+          }
+        });
+
+        rect9.addTo(graph);
+
+        var rect10 = rect9.clone();
+        rect10.translate(0, 50);
+        rect10.attr('label/text', 'MCB 2');
+
+        var rect11 = rect10.clone();
+        rect11.translate(0, 50);
+        rect11.attr('label/text', 'MCB 3');
+
+        var rect12 = rect11.clone();
+        rect12.translate(0, 50);
+        rect12.attr('label/text', 'MCB 4');
+
+        var rect13 = rect12.clone();
+        rect13.translate(0, 50);
+        rect13.attr('label/text', 'MCB 5');
+
+        var rect14 = rect13.clone();
+        rect14.translate(0, 50);
+        rect14.attr('label/text', 'MCB 6');
+
+
+        rect10.addTo(graph);
+        rect11.addTo(graph);
+        rect12.addTo(graph);
+        rect13.addTo(graph);
+        rect14.addTo(graph);
+
+
+        var link4  = link.clone();
+        link4.source(rect5, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link4.target(rect9, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var link5  = link.clone();
+        link5.source(rect5, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link5.target(rect14, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var link6  = link.clone();
+        link6.source(rect6, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link6.target(rect11, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var link7  = link.clone();
+        link7.source(rect6, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link7.target(rect12, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var link8  = link.clone();
+        link8.source(rect7, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link8.target(rect10, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var link9  = link.clone();
+        link9.source(rect7, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link9.target(rect13, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var rect15 = rect9.clone();
+        rect15.translate(200, 0);
+        rect15.attr('body/fill', 'grey');
+        rect15.attr('label/text', 'Output 1');
+        rect15.addTo(graph);
+
+        var rect16 = rect15.clone();
+        rect16.translate(0, 100);
+        rect16.attr('label/text', 'Output 2');
+
+        var rect17 = rect16.clone();
+        rect17.translate(0, 50);
+        rect17.attr('label/text', 'Output 3');
+
+        var rect18 = rect16.clone();
+        rect18.translate(-20, -40);
+        rect18.resize(140, 160);
+        rect18.attr({
+          body: {
+            fill: 'white',
+          },
+          label: {
+            text: '',
+          }
+        });
+
+        rect16.addTo(graph);
+        rect17.addTo(graph);
+        rect18.addTo(graph);
+
+
+        var link10  = link.clone();
+        link10.source(rect9, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link10.target(rect16, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var link11  = link.clone();
+        link11.source(rect10, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link11.target(rect15, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+        var link12  = link.clone();
+        link12.source(rect11, {
+          anchor: {
+            name: 'right',
+          }
+        });
+        link12.target(rect17, {
+          anchor: {
+            name: 'left',
+          }
+        });
+
+
+        link.addTo(graph);
+        link2.addTo(graph);
+        link3.addTo(graph);
+        link4.addTo(graph);
+        link5.addTo(graph);
+        link6.addTo(graph);
+        link7.addTo(graph);
+        link8.addTo(graph);
+        link9.addTo(graph);
+        link10.addTo(graph);
+        link11.addTo(graph);
+        link12.addTo(graph);
+
+    </script>
+</body>
+</html>

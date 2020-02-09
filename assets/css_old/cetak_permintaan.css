@@ -1,0 +1,56 @@
+.div-logo {
+  text-align:center;
+  padding-top:20px;
+}
+
+#table-mod {
+  font-size:12px;
+}
+
+#history_permintaan_mod {
+  padding-top:25px;
+}
+
+#judul_mod {
+  font-size:14px;
+}
+
+@media (min-width: 1200px) {
+  #judul_mod {
+    font-size:15px;
+  }
+}
+
+#container-mod {
+  padding-right:15px;
+  padding-left:15px;
+}
+
+@media (min-width: 576px) {
+  #container-mod {
+    padding-right:0px;
+    padding-left:0px;
+  }
+}
+
+@media (min-width: 768px) {
+  #container-mod {
+    padding-right:50px;
+    padding-left:50px;
+  }
+}
+
+@media (min-width: 992px) {
+  #container-mod {
+    padding-right:100px;
+    padding-left:100px;
+  }
+}
+
+@media (min-width: 1200px) {
+  #container-mod {
+    padding-right:150px;
+    padding-left:150px;
+  }
+}
+
